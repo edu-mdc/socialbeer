@@ -12,33 +12,33 @@ public class GrupoDTO {
 
     private long id;
 
-    @NotEmpty
+
     @Size(min = 2, message = "El grupo deberia tener a menos 2 caracteres")
     private String grupo;
 
-    @NotEmpty
+
     @Size(min = 2, message = "El estilo deberia tener a menos 2 caracteres")
     private String estilo;
 
-    @NotEmpty
+
     @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres")
     private String provincia;
 
-    @NotEmpty
+
     @Size(min = 4, message = "La poblacion deberia tener a menos 4 caracteres")
     private String poblacion;
 
-    @NotEmpty
+
     private double tarifa;
 
-    @NotEmpty
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime duracion;
 
-    @NotEmpty
+
     private double desplazamiento;
 
-    @NotEmpty
+
     private int telefono;
 
     private UsuarioDTO usuario;
@@ -58,70 +58,70 @@ public class GrupoDTO {
         this.id = id;
     }
 
-    public @NotEmpty @Size(min = 2, message = "El grupo deberia tener a menos 2 caracteres") String getGrupo() {
+    public @Size(min = 2, message = "El grupo deberia tener a menos 2 caracteres") String getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(@NotEmpty @Size(min = 2, message = "El grupo deberia tener a menos 2 caracteres") String grupo) {
+    public void setGrupo(@Size(min = 2, message = "El grupo deberia tener a menos 2 caracteres") String grupo) {
         this.grupo = grupo;
     }
 
-    public @NotEmpty @Size(min = 2, message = "El estilo deberia tener a menos 2 caracteres") String getEstilo() {
+    public @Size(min = 2, message = "El estilo deberia tener a menos 2 caracteres") String getEstilo() {
         return estilo;
     }
 
-    public void setEstilo(@NotEmpty @Size(min = 2, message = "El estilo deberia tener a menos 2 caracteres") String estilo) {
+    public void setEstilo(@Size(min = 2, message = "El estilo deberia tener a menos 2 caracteres") String estilo) {
         this.estilo = estilo;
     }
 
-    public @NotEmpty @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String getProvincia() {
+    public @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(@NotEmpty @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String provincia) {
+    public void setProvincia(@Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String provincia) {
         this.provincia = provincia;
     }
 
-    public @NotEmpty @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String getPoblacion() {
+    public @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String getPoblacion() {
         return poblacion;
     }
 
-    public void setPoblacion(@NotEmpty @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String poblacion) {
+    public void setPoblacion(@Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String poblacion) {
         this.poblacion = poblacion;
     }
 
-    @NotEmpty
+
     public double getTarifa() {
         return tarifa;
     }
 
-    public void setTarifa(@NotEmpty double tarifa) {
+    public void setTarifa(double tarifa) {
         this.tarifa = tarifa;
     }
 
-    public @NotEmpty LocalTime getDuracion() {
+    public LocalTime getDuracion() {
         return duracion;
     }
 
-    public void setDuracion(@NotEmpty LocalTime duracion) {
+    public void setDuracion(LocalTime duracion) {
         this.duracion = duracion;
     }
 
-    @NotEmpty
+
     public double getDesplazamiento() {
         return desplazamiento;
     }
 
-    public void setDesplazamiento(@NotEmpty double desplazamiento) {
+    public void setDesplazamiento(double desplazamiento) {
         this.desplazamiento = desplazamiento;
     }
 
-    @NotEmpty
+
     public int getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(@NotEmpty int telefono) {
+    public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
 

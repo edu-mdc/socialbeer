@@ -62,7 +62,7 @@ public class UsuarioServicioIMPL implements UsuarioServicio {
            establecimientoIMPL.crearEstablecimientoNuevoPorUsuarioId(nuevoUsuario.getId());
         }
         else if (nuevoUsuario.getRol()== Usuario.Rol.GRUPO) {
-            //implementar logica para grupo
+            grupoServicioIMPL.crearGrupoNuevoPorUsuarioId(nuevoUsuario.getId());
         }
 
         // Guardamos nuevamente el usuario para asegurar que la entidad asociada está ligada correctamente

@@ -1,7 +1,9 @@
 package com.gestor.eventos.controller;
 
+import com.gestor.eventos.dto.EstablecimientoDTO;
 import com.gestor.eventos.dto.GrupoDTO;
 import com.gestor.eventos.dto.GrupoRespuesta;
+import com.gestor.eventos.exceptions.ResourceNotFoundException;
 import com.gestor.eventos.services.GrupoServicio;
 import com.gestor.eventos.utilities.AppConstantes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,15 @@ public class GrupoControlador {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping("/{grupoId}")
-    public ResponseEntity<GrupoDTO> obtenerGrupoPorId(@PathVariable(value = "grupoId") Long grupoId) {
-        GrupoDTO grupoDTO = grupoServicio.obtenerGrupoPorId(grupoId);
-        return new ResponseEntity<>(grupoDTO, HttpStatus.OK);
+    @GetMapping("usuario/{usuarioId}")
+    public ResponseEntity<GrupoDTO> obtenerGrupoPorUsuarioId(@PathVariable(value = "usuarioId") Long usuarioId) {
+        try {
+            GrupoDTO grupoDTO = grupoServicio.obtenerGrupoPorId(usuarioId);
+            return new ResponseEntity<>(grupoDTO, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            // EstablecimientoDTO nuevoEstablecimiento = establecimientoServicio.crearEstablecimientoNuevoPorUsuarioId(usuarioId);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
     }
 
     @PostMapping("/{usuarioId}")

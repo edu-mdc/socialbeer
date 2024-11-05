@@ -43,11 +43,13 @@ public class GrupoServicioIMPL implements GrupoServicio {
         return mapearDTO(nuevoGrupo);
     }
 
+
+
     @Override
     @Transactional
-    public GrupoDTO obtenerGrupoPorId(Long grupoId) {
-        Grupo grupo = grupoRepositorioI.findById(grupoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Grupo", "id", grupoId));
+    public GrupoDTO obtenerGrupoPorId(Long usuarioId) {
+        Grupo grupo = grupoRepositorioI.findByUsuarioId(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Grupo", "id", usuarioId));
 
         return mapearDTO(grupo);
     }
@@ -75,9 +77,9 @@ public class GrupoServicioIMPL implements GrupoServicio {
 
     @Override
     @Transactional
-    public GrupoDTO actualizarGrupo(Long grupoId, GrupoDTO solicitudDeGrupo) {
-        Grupo grupo = grupoRepositorioI.findById(grupoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "id", grupoId));
+    public GrupoDTO actualizarGrupo(Long usuarioId, GrupoDTO solicitudDeGrupo) {
+        Grupo grupo = grupoRepositorioI.findByUsuarioId(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Grupo", "id", usuarioId));
 
         grupo.setGrupo(solicitudDeGrupo.getGrupo());
         grupo.setEstilo(solicitudDeGrupo.getEstilo());
@@ -90,6 +92,31 @@ public class GrupoServicioIMPL implements GrupoServicio {
 
         Grupo grupoActualizado = grupoRepositorioI.save(grupo);
         return mapearDTO(grupoActualizado);
+    }
+
+    @Override
+    public GrupoDTO crearGrupoNuevoPorUsuarioId(Long usuarioId) {
+        // Buscar al usuario por su ID
+        Usuario usuario = usuarioRepositorioI.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
+
+        // Crear un grupo nuevo y asociarlo al usuario
+        Grupo nuevoGrupo = new Grupo();
+        nuevoGrupo.setUsuario(usuario);
+
+
+        // Puedes añadir valores por defecto
+
+
+
+        nuevoGrupo.setProvincia("");
+        nuevoGrupo.setPoblacion("");
+
+        // Guardar el nuevo cliente en la base de datos
+        Grupo grupoGuardado = grupoRepositorioI.save(nuevoGrupo);
+
+        // Retornar el cliente guardado como DTO
+        return mapearDTO(grupoGuardado);
     }
 
     @Override
