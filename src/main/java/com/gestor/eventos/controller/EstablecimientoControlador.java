@@ -1,12 +1,15 @@
 package com.gestor.eventos.controller;
 
 
+import com.gestor.eventos.dto.ClienteDTO;
 import com.gestor.eventos.dto.EstablecimientoDTO;
 import com.gestor.eventos.dto.EstablecimientoRespuesta;
+import com.gestor.eventos.exceptions.ResourceNotFoundException;
 import com.gestor.eventos.services.EstablecimientoServicio;
 import com.gestor.eventos.utilities.AppConstantes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +31,19 @@ public class EstablecimientoControlador {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
-    @GetMapping("/{establecimientoId}")
-    public ResponseEntity<EstablecimientoDTO> obtenerEstablecimientoPorId(@PathVariable(value = "establecimientoId") Long establecimientoId) {
-        EstablecimientoDTO establecimientoDTO = establecimientoServicio.obtenerEstablecimientoPorId(establecimientoId);
-        return new ResponseEntity<>(establecimientoDTO, HttpStatus.OK);
+    @GetMapping("usuario/{usuarioId}")
+    public ResponseEntity<EstablecimientoDTO> obtenerEstablecimientoPorUsuarioId(@PathVariable(value = "usuarioId") Long usuarioId) {
+        try {
+            EstablecimientoDTO establecimientoDTO = establecimientoServicio.obtenerEstablecimientoPorId(usuarioId);
+            return new ResponseEntity<>(establecimientoDTO, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+           // EstablecimientoDTO nuevoEstablecimiento = establecimientoServicio.crearEstablecimientoNuevoPorUsuarioId(usuarioId);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+
     }
 
-    @PostMapping("/{usuarioId}")
+    @PostMapping(value = "/{usuarioId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EstablecimientoDTO> guardarEstablecimiento(@PathVariable(value = "usuarioId") long usuarioId, @RequestBody EstablecimientoDTO establecimientoDTO) {
         return new ResponseEntity<>(establecimientoServicio.crearEstablecimiento(usuarioId, establecimientoDTO), HttpStatus.CREATED);
     }

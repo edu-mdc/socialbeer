@@ -26,7 +26,7 @@ public class Cliente {
     @Column(name = "APELLIDO_2")
     private String apellido_2;
 
-    @Column(name = "DNI", nullable = false, unique = true)
+    @Column(name = "DNI", nullable = true, unique = true)
     private String dni;
 
     @Column(name = "FECHA_NACIMIENTO")

@@ -17,7 +17,7 @@ public class Grupo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "GRUPO", nullable = false)
+    @Column(name = "GRUPO", nullable = true)
     private String grupo;
 
     @Column(name = "ESTILO")

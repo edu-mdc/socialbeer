@@ -7,6 +7,7 @@ import com.gestor.eventos.dto.RegistroDTO;
 import com.gestor.eventos.dto.UsuarioDTO;
 import com.gestor.eventos.entities.Usuario;
 import com.gestor.eventos.repository.UsuarioRepositorioI;
+import com.gestor.eventos.services.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,9 @@ public class AuthControlador {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private UsuarioServicio usuarioServicio;
+
     @PostMapping("/iniciarSesion")
     public ResponseEntity<JwtAuthResponseDTO> authenticateUser(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(
@@ -67,13 +71,16 @@ public class AuthControlador {
             return  new ResponseEntity<>(Map.of("isSuccess", false, "message", "email de usuario existe"), HttpStatus.BAD_REQUEST);
         }
 
-        Usuario usuario = new Usuario();
+        /*Usuario usuario = new Usuario();
         usuario.setNombreUsuario(usuarioDTO.getNombreUsuario());
         usuario.setRol(usuarioDTO.getRol());
         usuario.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
-        usuario.setEmail(usuarioDTO.getEmail());
+        usuario.setEmail(usuarioDTO.getEmail());*/
 
-        usuarioRepositorioI.save(usuario);
+        usuarioDTO.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
+        UsuarioDTO nuevoUsuario = usuarioServicio.crearUsuario(usuarioDTO);
+
+        //usuarioRepositorioI.save(usuario);
         return new ResponseEntity<>(Map.of("isSuccess", true, "message", "Usuario registrado exitosamente"), HttpStatus.OK);
     }
 }

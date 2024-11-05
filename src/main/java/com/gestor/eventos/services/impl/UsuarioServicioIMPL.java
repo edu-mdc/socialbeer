@@ -3,6 +3,9 @@ package com.gestor.eventos.services.impl;
 import com.gestor.eventos.dto.*;
 import com.gestor.eventos.entities.*;
 import com.gestor.eventos.exceptions.ResourceNotFoundException;
+import com.gestor.eventos.repository.ClienteRepositorioI;
+import com.gestor.eventos.repository.EstablecimientoRepositorioI;
+import com.gestor.eventos.repository.GrupoRepositorioI;
 import com.gestor.eventos.repository.UsuarioRepositorioI;
 import com.gestor.eventos.services.UsuarioServicio;
 import org.modelmapper.ModelMapper;
@@ -25,12 +28,45 @@ public class UsuarioServicioIMPL implements UsuarioServicio {
     @Autowired
     private UsuarioRepositorioI usuarioRepositorioI;
 
+    @Autowired
+    private ClienteRepositorioI clienteRepositorioI;
+
+    @Autowired
+    private EstablecimientoRepositorioI establecimientoRepositorioI;
+
+    @Autowired
+    private GrupoRepositorioI grupoRepositorioI;
+
+    @Autowired
+    private  EstablecimientoIMPL establecimientoIMPL;
+
+    @Autowired
+    private ClienteServicioIMPL clienteServicioIMPL;
+
+    @Autowired
+    private GrupoServicioIMPL grupoServicioIMPL;
 
     @Override
     public UsuarioDTO crearUsuario(UsuarioDTO usuarioDTO) {
+        // Primero mapeamos el usuario y lo guardamos para obtener su ID
         Usuario usuario = mapearEntidad(usuarioDTO);
         Usuario nuevoUsuario = usuarioRepositorioI.save(usuario);
-        UsuarioDTO usuarioRespuesta = mapearDTO(nuevoUsuario);
+
+
+        // Ahora, en función del rol, creamos la entidad correspondiente
+        if (nuevoUsuario.getRol() == Usuario.Rol.CLIENTE) {
+            clienteServicioIMPL.crearClienteNuevoPorUsuarioId(nuevoUsuario.getId());
+
+        }
+        else if (nuevoUsuario.getRol() == Usuario.Rol.ESTABLECIMIENTO) {
+           establecimientoIMPL.crearEstablecimientoNuevoPorUsuarioId(nuevoUsuario.getId());
+        }
+        else if (nuevoUsuario.getRol()== Usuario.Rol.GRUPO) {
+            //implementar logica para grupo
+        }
+
+        // Guardamos nuevamente el usuario para asegurar que la entidad asociada está ligada correctamente
+        UsuarioDTO usuarioRespuesta = mapearDTO(usuarioRepositorioI.save(nuevoUsuario));
 
         return usuarioRespuesta;
     }

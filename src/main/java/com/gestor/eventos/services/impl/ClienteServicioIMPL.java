@@ -102,7 +102,7 @@ public class ClienteServicioIMPL implements ClienteServicio {
         nuevoCliente.setNombre("");
         nuevoCliente.setApellido_1("");
         nuevoCliente.setApellido_2("");// Puedes añadir valores por defecto
-        nuevoCliente.setDni("");
+
 
         nuevoCliente.setDireccion("");
         nuevoCliente.setProvincia("");

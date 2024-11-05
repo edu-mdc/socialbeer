@@ -15,10 +15,10 @@ public class Establecimiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ESTABLECIMIENTO", nullable = false)
+    @Column(name = "ESTABLECIMIENTO", nullable = true)
     private String establecimiento;
 
-    @Column(name = "CIF", nullable = false, unique = true)
+    @Column(name = "CIF", nullable = true, unique = true)
     private String cif;
 
     @Column(name = "AFORO")

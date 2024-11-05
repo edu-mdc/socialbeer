@@ -32,18 +32,18 @@ public class EstablecimientoIMPL implements EstablecimientoServicio {
 
     @Override
     public EstablecimientoDTO crearEstablecimiento(long usuarioId, EstablecimientoDTO establecimientoDTO) {
-        Establecimiento establecimiento = mapearEntidad(establecimientoDTO);
-        Usuario usuario = usuarioRepositorioI.findById(usuarioId).orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
 
+        Usuario usuario = usuarioRepositorioI.findById(usuarioId).orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
+        Establecimiento establecimiento = mapearEntidad(establecimientoDTO);
         establecimiento.setUsuario(usuario);
         Establecimiento nuevoEstablecimiento = establecimientoRepositorioI.save(establecimiento);
         return mapearDTO(nuevoEstablecimiento);
     }
 
     @Override
-    public EstablecimientoDTO obtenerEstablecimientoPorId(Long establecimientoId) {
-        Establecimiento establecimiento = establecimientoRepositorioI.findById(establecimientoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Establecimiento", "id", establecimientoId));
+    public EstablecimientoDTO obtenerEstablecimientoPorId(Long usuarioId) {
+        Establecimiento establecimiento = establecimientoRepositorioI.findByUsuarioId(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Establecimiento", "id", usuarioId));
 
         return mapearDTO(establecimiento);
     }
@@ -70,9 +70,9 @@ public class EstablecimientoIMPL implements EstablecimientoServicio {
     }
 
     @Override
-    public EstablecimientoDTO actualizarEstablecimiento(Long establecimientoId, EstablecimientoDTO solicitudDeEstablecimiento) {
-        Establecimiento establecimiento = establecimientoRepositorioI.findById(establecimientoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Establecimiento", "id", establecimientoId));
+    public EstablecimientoDTO actualizarEstablecimiento(Long usuarioId, EstablecimientoDTO solicitudDeEstablecimiento) {
+        Establecimiento establecimiento = establecimientoRepositorioI.findByUsuarioId(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Establecimiento", "id", usuarioId));
 
         establecimiento.setEstablecimiento(solicitudDeEstablecimiento.getEstablecimiento());
         establecimiento.setCif(solicitudDeEstablecimiento.getCif());
@@ -84,6 +84,30 @@ public class EstablecimientoIMPL implements EstablecimientoServicio {
 
         Establecimiento establecimientoActualizado = establecimientoRepositorioI.save(establecimiento);
         return mapearDTO(establecimientoActualizado);
+    }
+
+    public EstablecimientoDTO crearEstablecimientoNuevoPorUsuarioId(Long usuarioId) {
+        // Buscar al usuario por su ID
+        Usuario usuario = usuarioRepositorioI.findById(usuarioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
+
+        // Crear un cliente nuevo y asociarlo al usuario
+        Establecimiento nuevoEstablecimiento = new Establecimiento();
+        nuevoEstablecimiento.setUsuario(usuario);
+
+
+        // Puedes añadir valores por defecto
+
+
+        nuevoEstablecimiento.setDireccion("");
+        nuevoEstablecimiento.setProvincia("");
+        nuevoEstablecimiento.setPoblacion("");
+
+        // Guardar el nuevo cliente en la base de datos
+        Establecimiento establecimientoGuardado = establecimientoRepositorioI.save(nuevoEstablecimiento);
+
+        // Retornar el cliente guardado como DTO
+        return mapearDTO(establecimientoGuardado);
     }
 
     @Override

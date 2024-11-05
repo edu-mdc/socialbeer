@@ -53,10 +53,12 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/api/usuarios/eventos/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/usuarios/clientes/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET, "/api/usuarios/grupos/**").hasAnyRole("CLIENTE", "ESTABLECIMIENTO")
-                        .requestMatchers(HttpMethod.GET, "/api/usuarios/establecimientos/**").hasAnyRole("CLIENTE", "GRUPO") // Cambiado aquí
+                        .requestMatchers(HttpMethod.GET, "/api/usuarios/establecimientos/**").hasAnyRole("CLIENTE", "GRUPO","ESTABLECIMIENTO" ) // Cambiado aquí
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/valoracionGrupos/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/api/usuarios/valoracionEstablecimientos/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.PUT, "/api/usuarios/clientes/**").hasAnyRole("CLIENTE")
                         .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 );

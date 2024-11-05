@@ -38,8 +38,8 @@ public class ClienteControllador {
         } catch (ResourceNotFoundException e) {
             // Si no se encuentra, devolver un 404 o crear el cliente
             // Aquí puedes decidir si devuelves una respuesta vacía o creas un nuevo cliente
-            ClienteDTO nuevoCliente = clienteServicio.crearClienteNuevoPorUsuarioId(usuarioId);
-            return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
+            //ClienteDTO nuevoCliente = clienteServicio.crearClienteNuevoPorUsuarioId(usuarioId);
+            return new ResponseEntity<>( HttpStatus.CREATED);
         }
     }
 

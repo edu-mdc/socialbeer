@@ -11,31 +11,31 @@ public class EstablecimientoDTO {
 
     private long id;
 
-    @NotEmpty
+
     @Size(min = 2, message = "El establecimiento deberia tener a menos 2 caracteres")
     private String establecimiento;
 
-    @NotEmpty
+
     @Size(min = 8, message = "El CIF deberia tener a menos 8 caracteres")
     private String cif;
 
-    @NotEmpty
+
     @Size(min = 2, message = "El aforo deberia tener a menos 2 caracteres")
     private int aforo;
 
-    @NotEmpty
+
     @Size(min = 5, message = "La direccion deberia tener a menos 5 caracteres")
     private String direccion;
 
-    @NotEmpty
+
     @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres")
     private String provincia;
 
-    @NotEmpty
+
     @Size(min = 4, message = "La poblacion deberia tener a menos 4 caracteres")
     private String poblacion;
 
-    @NotEmpty
+
     @Size(min = 9, message = "El telefono deberia tener a menos 9 caracteres")
     private int telefono;
 
@@ -56,63 +56,63 @@ public class EstablecimientoDTO {
         this.id = id;
     }
 
-    public @NotEmpty @Size(min = 2, message = "El establecimiento deberia tener a menos 2 caracteres") String getEstablecimiento() {
+    public @Size(min = 2, message = "El establecimiento deberia tener a menos 2 caracteres") String getEstablecimiento() {
         return establecimiento;
     }
 
-    public void setEstablecimiento(@NotEmpty @Size(min = 2, message = "El establecimiento deberia tener a menos 2 caracteres") String establecimiento) {
+    public void setEstablecimiento(@Size(min = 2, message = "El establecimiento deberia tener a menos 2 caracteres") String establecimiento) {
         this.establecimiento = establecimiento;
     }
 
-    public @NotEmpty @Size(min = 8, message = "El CIF deberia tener a menos 8 caracteres") String getCif() {
+    public @Size(min = 8, message = "El CIF deberia tener a menos 8 caracteres") String getCif() {
         return cif;
     }
 
-    public void setCif(@NotEmpty @Size(min = 8, message = "El CIF deberia tener a menos 8 caracteres") String cif) {
+    public void setCif(@Size(min = 8, message = "El CIF deberia tener a menos 8 caracteres") String cif) {
         this.cif = cif;
     }
 
-    @NotEmpty
+
     @Size(min = 2, message = "El aforo deberia tener a menos 2 caracteres")
     public int getAforo() {
         return aforo;
     }
 
-    public void setAforo(@NotEmpty @Size(min = 2, message = "El aforo deberia tener a menos 2 caracteres") int aforo) {
+    public void setAforo(@Size(min = 2, message = "El aforo deberia tener a menos 2 caracteres") int aforo) {
         this.aforo = aforo;
     }
 
-    public @NotEmpty @Size(min = 5, message = "La direccion deberia tener a menos 5 caracteres") String getDireccion() {
+    public @Size(min = 5, message = "La direccion deberia tener a menos 5 caracteres") String getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(@NotEmpty @Size(min = 5, message = "La direccion deberia tener a menos 5 caracteres") String direccion) {
+    public void setDireccion(@Size(min = 5, message = "La direccion deberia tener a menos 5 caracteres") String direccion) {
         this.direccion = direccion;
     }
 
-    public @NotEmpty @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String getProvincia() {
+    public @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(@NotEmpty @Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String provincia) {
+    public void setProvincia(@Size(min = 4, message = "La provincia deberia tener a menos 4 caracteres") String provincia) {
         this.provincia = provincia;
     }
 
-    public @NotEmpty @Size(min = 4, message = "La poblacion deberia tener a menos 4 caracteres") String getPoblacion() {
+    public @Size(min = 4, message = "La poblacion deberia tener a menos 4 caracteres") String getPoblacion() {
         return poblacion;
     }
 
-    public void setPoblacion(@NotEmpty @Size(min = 4, message = "La poblacion deberia tener a menos 4 caracteres") String poblacion) {
+    public void setPoblacion(@Size(min = 4, message = "La poblacion deberia tener a menos 4 caracteres") String poblacion) {
         this.poblacion = poblacion;
     }
 
-    @NotEmpty
+
     @Size(min = 9, message = "El telefono deberia tener a menos 9 caracteres")
     public int getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(@NotEmpty @Size(min = 9, message = "El telefono deberia tener a menos 9 caracteres") int telefono) {
+    public void setTelefono(@Size(min = 9, message = "El telefono deberia tener a menos 9 caracteres") int telefono) {
         this.telefono = telefono;
     }
 
