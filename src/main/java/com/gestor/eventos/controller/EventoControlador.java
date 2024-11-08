@@ -5,11 +5,13 @@ import com.gestor.eventos.dto.EventoRespuesta;
 import com.gestor.eventos.services.EventoServicio;
 import com.gestor.eventos.utilities.AppConstantes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -30,6 +32,12 @@ public class EventoControlador {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping("/evento/{eventoId}")
+    public ResponseEntity<EventoDTO> obtenerEventoPorId(@PathVariable(value = "eventoId") Long eventoId) {
+        EventoDTO evento = eventoServicio.obtenerEventoPorId(eventoId);
+        return ResponseEntity.ok(evento);
+    }
+
     @GetMapping("/grupo/{grupoId}")
     public List<EventoDTO> listarEventosPorGrupoId(@PathVariable(value = "grupoId") Long grupoId) {
         return eventoServicio.obtenerEventosPorGrupoId(grupoId);
@@ -47,16 +55,23 @@ public class EventoControlador {
     }
 
     @PreAuthorize("hasRole('ESTABLECIMIENTO)")
-    @PutMapping("/evento/{establecimientoId}/{eventoId}")
-    public ResponseEntity<EventoDTO> actualizarEvento(@PathVariable(value = "establecimientoId") Long establecimientoId, @PathVariable(value = "eventoId") Long eventoId,@RequestBody EventoDTO eventoDTO) {
-        EventoDTO eventoActualizado = eventoServicio.actualizarEvento(establecimientoId, eventoId, eventoDTO);
+    @PutMapping("/evento/{eventoId}")
+    public ResponseEntity<EventoDTO> actualizarEvento(@PathVariable(value = "eventoId") Long eventoId,@RequestBody EventoDTO eventoDTO) {
+        EventoDTO eventoActualizado = eventoServicio.actualizarEvento(eventoId, eventoDTO);
         return new ResponseEntity<>(eventoActualizado, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ESTABLECIMIENTO)")
-    @DeleteMapping("/evento/{establecimientoId}/{eventoId}")
-    public ResponseEntity<String> eliminarEvento(@PathVariable(value = "establecimientoId") Long establecimientoId, @PathVariable(value = "eventoId") Long eventoId){
-        eventoServicio.eliminarEvento(establecimientoId,eventoId);
+    @DeleteMapping("/evento/{eventoId}")
+    public ResponseEntity<String> eliminarEvento(@PathVariable(value = "eventoId") Long eventoId){
+        eventoServicio.eliminarEvento(eventoId);
         return new ResponseEntity<>("Evento eliminado con exito", HttpStatus.OK);
     }
+
+    @GetMapping("/verificar/{establecimientoId}/{grupoId}/{fechaEvento}")
+    public ResponseEntity<Boolean> verificarDisponibilidad(@PathVariable(value = "establecimientoId") Long establecimientoId, @PathVariable(value = "grupoId") Long grupoId, @PathVariable(value = "fechaEvento") LocalDate fechaEvento) {
+        boolean disponible = eventoServicio.verificarDisponibilidad(establecimientoId, grupoId, fechaEvento);
+        return ResponseEntity.ok(disponible);
+    }
+
 }

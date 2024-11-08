@@ -9,5 +9,7 @@ import java.util.List;
 public interface EventoRepositorioI extends JpaRepository<Evento,Long> {
     public List<Evento> findByGrupoId(long grupoId);
     public List<Evento> findByEstablecimientoId(long establecimientoId);
-    List<Evento> findByGrupoIdAndFechaEvento(long grupoId, LocalDate fechaEvento);
+    public List<Evento> findByGrupoIdAndFechaEvento(long grupoId, LocalDate fechaEvento);
+    public List<Evento> findByEstablecimientoIdAndFechaEvento(long establecimientoId, LocalDate fechaEvento);
+
 }

@@ -49,6 +49,11 @@ public class EventoServicioIMPL implements EventoServicio {
             throw new ResourceConflictException("El grupo ya tiene un evento programado para la fecha: " + fechaEvento);
         }
 
+        List<Evento> eventosEstablecimiento = eventoRepositorioI.findByEstablecimientoIdAndFechaEvento(establecimientoId, fechaEvento);
+        if (!eventosEstablecimiento.isEmpty()) {
+            throw new ResourceConflictException("El establecimiento ya tiene un evento programado para la fecha: " + fechaEvento);
+        }
+
         // Mapeamos el DTO a entidad
         Evento evento = mapearEntidad(eventoDTO);
 
@@ -65,6 +70,13 @@ public class EventoServicioIMPL implements EventoServicio {
         // Guardamos el evento
         Evento nuevoEvento = eventoRepositorioI.save(evento);
         return mapearDTO(nuevoEvento);
+    }
+
+    @Override
+    public EventoDTO obtenerEventoPorId(Long eventoId) {
+        Evento evento = eventoRepositorioI.findById(eventoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Evento", "id", eventoId));
+        return mapearDTO(evento);
     }
 
     @Override
@@ -102,16 +114,22 @@ public class EventoServicioIMPL implements EventoServicio {
     }
 
     @Override
-    public EventoDTO actualizarEvento(Long establecimientoId, Long eventoId, EventoDTO solicitudDeEvento) {
-        Establecimiento establecimiento = establecimientoRepositorioI.findById(establecimientoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Establecimiento", "id", establecimientoId));
-
-
+    public EventoDTO actualizarEvento(Long eventoId, EventoDTO solicitudDeEvento) {
         Evento evento = eventoRepositorioI.findById(eventoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Evento", "id", eventoId));
 
-        if (!evento.getEstablecimiento().getId().equals(establecimiento.getId())) {
-            throw new GestorAppException(HttpStatus.BAD_REQUEST, "El evento no pertenece al establecimiento");
+        Long grupoId = evento.getGrupo().getId();
+        Long establecimientoId = evento.getEstablecimiento().getId();
+        LocalDate fechaEvento = solicitudDeEvento.getFechaEvento();
+
+        List<Evento> eventosEstablecimiento = eventoRepositorioI.findByEstablecimientoIdAndFechaEvento(establecimientoId, fechaEvento);
+        List<Evento> eventosGrupo = eventoRepositorioI.findByGrupoIdAndFechaEvento(grupoId, fechaEvento);
+
+        eventosEstablecimiento.removeIf(e -> e.getId().equals(eventoId));
+        eventosGrupo.removeIf(e -> e.getId().equals(eventoId));
+
+        if (!eventosEstablecimiento.isEmpty() || !eventosGrupo.isEmpty()) {
+            throw new ResourceConflictException("El grupo o el establecimiento ya tienen un evento en esta fecha.");
         }
 
         evento.setFechaContratacion(solicitudDeEvento.getFechaContratacion());
@@ -127,16 +145,9 @@ public class EventoServicioIMPL implements EventoServicio {
     }
 
     @Override
-    public void eliminarEvento(Long establecimientoId, Long eventoId) {
-        Establecimiento establecimiento = establecimientoRepositorioI.findById(establecimientoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Establecimiento", "id", establecimientoId));
-
+    public void eliminarEvento(Long eventoId) {
         Evento evento = eventoRepositorioI.findById(eventoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Evento", "id", eventoId));
-
-        if (!evento.getEstablecimiento().getId().equals(establecimiento.getId())) {
-            throw new GestorAppException(HttpStatus.BAD_REQUEST, "El evento no pertenece al establecimiento");
-        }
 
         eventoRepositorioI.delete(evento);
     }
@@ -180,6 +191,13 @@ public class EventoServicioIMPL implements EventoServicio {
         dto.setDesplazamiento(grupo.getDesplazamiento());
         dto.setTelefono(grupo.getTelefono());
         return dto;
+    }
+
+    public boolean verificarDisponibilidad(Long establecimientoId,Long grupoId, LocalDate fechaEvento) {
+        List<Evento> eventosEstablecimiento = eventoRepositorioI.findByEstablecimientoIdAndFechaEvento(establecimientoId, fechaEvento);
+        List<Evento> eventosGrupo = eventoRepositorioI.findByGrupoIdAndFechaEvento(grupoId, fechaEvento);
+
+        return eventosGrupo.isEmpty() && eventosEstablecimiento.isEmpty();
     }
 
     private EstablecimientoDTO convertirAEstablecimientoDTO(Establecimiento establecimiento) { // Añadir este método
