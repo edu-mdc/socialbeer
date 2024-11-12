@@ -28,7 +28,7 @@ public class ValoracionDeGrupoControlador {
         return new ResponseEntity<>(valoracionDeGrupoDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('CLIENTE)")
+    @PreAuthorize("hasRole('CLIENTE')")
     @PostMapping("/{grupoId}/{clienteId}")
     public ResponseEntity<ValoracionDeGrupoDTO> guardarValoracionDeGrupo(@PathVariable(value = "grupoId") long grupoId, @PathVariable(value = "clienteId") long clienteId , @RequestBody ValoracionDeGrupoDTO valoracionDeGrupoDTO) {
         return new ResponseEntity<>(valoracionDeGrupoServicio.crearValoracionDeGrupo(grupoId, clienteId,valoracionDeGrupoDTO), HttpStatus.CREATED);

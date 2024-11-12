@@ -16,7 +16,7 @@ public class ValoracionDeGrupoDTO {
     private int puntuacion;
 
     @NotEmpty
-    @Size(min = 10, message = "El comentario deberia tener a menos 10 caracteres")
+    @Size(min = 2, message = "El comentario deberia tener a menos 10 caracteres")
     private String comentario;
 
     @NotEmpty
