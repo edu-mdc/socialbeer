@@ -4,6 +4,7 @@ package com.gestor.eventos.controller;
 import com.gestor.eventos.dto.ClienteDTO;
 import com.gestor.eventos.dto.EstablecimientoDTO;
 import com.gestor.eventos.dto.EstablecimientoRespuesta;
+import com.gestor.eventos.dto.GrupoDTO;
 import com.gestor.eventos.exceptions.ResourceNotFoundException;
 import com.gestor.eventos.services.EstablecimientoServicio;
 import com.gestor.eventos.utilities.AppConstantes;
@@ -41,6 +42,16 @@ public class EstablecimientoControlador {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
 
+    }
+
+    @GetMapping("/{establecimientoId}")
+    public ResponseEntity<EstablecimientoDTO> obtenerEstablecimientoPorEstablecimientoId(@PathVariable(value = "establecimientoId") Long establecimientoId) {
+        try {
+            EstablecimientoDTO establecimientoDTO = establecimientoServicio.obtenerEstablecimientoPorEstablecimientoId(establecimientoId);
+            return new ResponseEntity<>(establecimientoDTO, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping(value = "/{usuarioId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
-@JsonIgnoreProperties({"establecimiento", "cliente"})
+
 public class ValoracionDeEstablecimientoDTO {
 
     private Long id;

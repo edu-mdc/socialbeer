@@ -35,7 +35,7 @@ public class ValoracionDeEstablecimientoControlador {
         return new ResponseEntity<>(valoracionDeEstablecimientoServicio.crearValoracionDeEstablecimiento(establecimientoId, clienteId,valoracionDeEstablecimientoDTO), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('CLIENTE)")
+    @PreAuthorize("hasRole('CLIENTE')")
     @PutMapping("{establecimientoId}/{valoracionDeEstablecimientoId}")
     public ResponseEntity<ValoracionDeEstablecimientoDTO> actualizarValoracionDeGrupo(@PathVariable(value = "establecimientoId") Long establecimientoId, @PathVariable(value = "valoracionDeEstablecimientoId") Long valoracionDeEstablecimientoId,@RequestBody ValoracionDeEstablecimientoDTO valoracionDeEstablecimientoDTO) {
         ValoracionDeEstablecimientoDTO valoracionDeEstablecimientoActualizada = valoracionDeEstablecimientoServicio.actualizarValoracionDeEstablecimiento(establecimientoId, valoracionDeEstablecimientoId, valoracionDeEstablecimientoDTO);

@@ -6,6 +6,7 @@ import com.gestor.eventos.exceptions.ResourceNotFoundException;
 import com.gestor.eventos.repository.EstablecimientoRepositorioI;
 import com.gestor.eventos.repository.UsuarioRepositorioI;
 import com.gestor.eventos.services.EstablecimientoServicio;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,14 @@ public class EstablecimientoIMPL implements EstablecimientoServicio {
         establecimiento.setUsuario(usuario);
         Establecimiento nuevoEstablecimiento = establecimientoRepositorioI.save(establecimiento);
         return mapearDTO(nuevoEstablecimiento);
+    }
+
+    @Override
+    @Transactional
+    public EstablecimientoDTO obtenerEstablecimientoPorEstablecimientoId(Long establecimientoId) {
+        Establecimiento establecimiento = establecimientoRepositorioI.findById(establecimientoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Establecimiento", "id", establecimientoId));
+        return mapearDTO(establecimiento);
     }
 
     @Override
