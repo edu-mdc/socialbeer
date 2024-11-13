@@ -43,6 +43,13 @@ public class GrupoServicioIMPL implements GrupoServicio {
         return mapearDTO(nuevoGrupo);
     }
 
+    @Override
+    @Transactional
+    public GrupoDTO obtenerGrupoPorGrupoId(Long grupoId) {
+        Grupo grupo = grupoRepositorioI.findById(grupoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Grupo", "id", grupoId));
+        return mapearDTO(grupo);
+    }
 
 
     @Override
@@ -53,6 +60,8 @@ public class GrupoServicioIMPL implements GrupoServicio {
 
         return mapearDTO(grupo);
     }
+
+
 
     @Override
     @Transactional

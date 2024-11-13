@@ -16,5 +16,7 @@ public interface GrupoServicio {
 
     public GrupoDTO actualizarGrupo(Long grupoId, GrupoDTO solicitudDeGrupo);
 
+    GrupoDTO obtenerGrupoPorGrupoId(Long grupoId);
+
     public void eliminarGrupo(Long grupoId);
 }

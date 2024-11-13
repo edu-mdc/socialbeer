@@ -40,6 +40,16 @@ public class GrupoControlador {
         }
     }
 
+    @GetMapping("/{grupoId}")
+    public ResponseEntity<GrupoDTO> obtenerGrupoPorGrupoId(@PathVariable(value = "grupoId") Long grupoId) {
+        try {
+            GrupoDTO grupoDTO = grupoServicio.obtenerGrupoPorGrupoId(grupoId);
+            return new ResponseEntity<>(grupoDTO, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/{usuarioId}")
     public ResponseEntity<GrupoDTO> guardarGrupo(@PathVariable(value = "usuarioId") long usuarioId, @RequestBody GrupoDTO grupoDTO) {
         return new ResponseEntity<>(grupoServicio.crearGrupo(usuarioId, grupoDTO), HttpStatus.CREATED);
