@@ -79,6 +79,12 @@ public class EstablecimientoIMPL implements EstablecimientoServicio {
     }
 
     @Override
+    public List<EstablecimientoDTO> obtenerTodosLosEstablecimientosSinPaginacion() {
+        List<Establecimiento> establecimientos = establecimientoRepositorioI.findAll();
+        return establecimientos.stream().map(this::mapearDTO).collect(Collectors.toList());
+    }
+
+    @Override
     public EstablecimientoDTO actualizarEstablecimiento(Long usuarioId, EstablecimientoDTO solicitudDeEstablecimiento) {
         Establecimiento establecimiento = establecimientoRepositorioI.findByUsuarioId(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Establecimiento", "id", usuarioId));

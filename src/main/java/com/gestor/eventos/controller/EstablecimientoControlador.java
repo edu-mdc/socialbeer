@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/usuarios/establecimientos")
 public class EstablecimientoControlador {
@@ -30,6 +32,12 @@ public class EstablecimientoControlador {
 
         EstablecimientoRespuesta respuesta = establecimientoServicio.obtenerTodosLosEstablecimientos(numeroDePagina, medidaDePagina, ordernarPor, sortDir);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
+    @GetMapping("/todos")
+    public ResponseEntity<List<EstablecimientoDTO>> obtenerTodosLosEstablecimientosSinPaginacion() {
+        List<EstablecimientoDTO> establecimientos = establecimientoServicio.obtenerTodosLosEstablecimientosSinPaginacion();
+        return new ResponseEntity<>(establecimientos, HttpStatus.OK);
     }
 
     @GetMapping("usuario/{usuarioId}")
