@@ -31,6 +31,12 @@ public class UsuarioControlador {
         return ResponseEntity.ok(usuarioServicio.obtenerUsuariosPorId(id));
     }
 
+    @GetMapping("/establecimientoId/{id}")
+    public ResponseEntity<UsuarioDTO> obtenerUsuarioPorEstablecimientoId(@PathVariable(name = "id") long idEstablecimiento) {
+        UsuarioDTO usuarioDTO = usuarioServicio.obtenerUsuarioPorEstablecimientoId(idEstablecimiento);
+        return ResponseEntity.ok(usuarioDTO);
+    }
+
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<UsuarioDTO> guardarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         return new ResponseEntity<>(usuarioServicio.crearUsuario(usuarioDTO), HttpStatus.CREATED);

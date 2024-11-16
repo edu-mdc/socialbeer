@@ -32,6 +32,12 @@ public class EventoControlador {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
+    @GetMapping("/todos")
+    public ResponseEntity<List<EventoDTO>> listarTodosLosEventos() {
+        List<EventoDTO> eventos = eventoServicio.obtenerTodosLosEventos();
+        return new ResponseEntity<>(eventos, HttpStatus.OK);
+    }
+
     @GetMapping("/evento/{eventoId}")
     public ResponseEntity<EventoDTO> obtenerEventoPorId(@PathVariable(value = "eventoId") Long eventoId) {
         EventoDTO evento = eventoServicio.obtenerEventoPorId(eventoId);

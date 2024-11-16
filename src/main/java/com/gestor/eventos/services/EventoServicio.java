@@ -18,6 +18,8 @@ public interface EventoServicio {
 
     EventoRespuesta obtenerTodosEventos(int numeroDePagina, int medidaDePagina, String ordernarPor, String sortDir);
 
+    List<EventoDTO> obtenerTodosLosEventos();
+
     public EventoDTO actualizarEvento(Long eventoId,EventoDTO solicitudDeEvento);
 
     public void eliminarEvento(Long eventoId);

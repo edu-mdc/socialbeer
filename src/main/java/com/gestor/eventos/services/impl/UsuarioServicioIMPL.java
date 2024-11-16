@@ -106,6 +106,21 @@ public class UsuarioServicioIMPL implements UsuarioServicio {
         return mapearDTO(usuario);
     }
 
+    public UsuarioDTO obtenerUsuarioPorEstablecimientoId(Long idEstablecimiento) {
+        // Busca el establecimiento por ID
+        Establecimiento establecimiento = establecimientoRepositorioI.findById(idEstablecimiento)
+                .orElseThrow(() -> new ResourceNotFoundException("Establecimiento", "id", idEstablecimiento));
+
+        // Obtiene el usuario asociado al establecimiento
+        Usuario usuario = establecimiento.getUsuario();
+        if (usuario == null) {
+            throw new ResourceNotFoundException("Usuario", "id del establecimiento", idEstablecimiento);
+        }
+
+        // Convierte el usuario en DTO y lo devuelve
+        return mapearDTO(usuario);
+    }
+
     @Override
     public UsuarioDTO actualizarUsuario(UsuarioDTO usuarioDTO, Long id_usuario) {
         Usuario usuario = usuarioRepositorioI.findById(id_usuario).orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", id_usuario));

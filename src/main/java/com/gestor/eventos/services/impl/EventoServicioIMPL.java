@@ -113,6 +113,11 @@ public class EventoServicioIMPL implements EventoServicio {
         return eventoRespuesta;
     }
 
+    public List<EventoDTO> obtenerTodosLosEventos() {
+        List<Evento> eventos = eventoRepositorioI.findAll();
+        return eventos.stream().map(this::mapearDTO).collect(Collectors.toList());
+    }
+
     @Override
     public EventoDTO actualizarEvento(Long eventoId, EventoDTO solicitudDeEvento) {
         Evento evento = eventoRepositorioI.findById(eventoId)
